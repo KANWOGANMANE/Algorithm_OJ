@@ -1,0 +1,9 @@
+spring:
+  profiles:
+    include: common
+
+  redis:
+    host: localhost
+    password:
+    port: 6379
+    timeout: 2000ms
