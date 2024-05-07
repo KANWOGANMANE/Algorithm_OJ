@@ -56,6 +56,26 @@ public class LeetCodeDemo {
         String decodeString = decodeString("3[z]2[2[y]pq4[2[jk]e1[f]]]ef");
         int searchInsert = searchInsert(new int[]{1, 3, 5, 6}, 5);
         boolean searchMatrix = searchMatrix(new int[][]{{1}, {3}}, 3);
+        int searchLeetCode33 = searchLeetCode33(new int[]{3, 5, 1}, 3);
+    }
+
+    public static int searchLeetCode33(int[] nums, int target) {
+        int index = -1;
+        for (int i = 1; i < nums.length; i++) {
+            if (nums[i] - nums[i - 1] < 0) {
+                index = i;
+            }
+        }
+
+        if (index == -1) {
+            return searchInsert(0, nums.length - 1, nums, target);
+        }
+
+        if (target > nums[nums.length - 1]) {
+            return searchInsert(0, index - 1, nums, target);
+        } else {
+            return searchInsert(index, nums.length - 1, nums, target);
+        }
     }
 
     public static boolean searchMatrix(int[][] matrix, int target) {
@@ -119,6 +139,20 @@ public class LeetCodeDemo {
             }
         }
         return left;
+    }
+
+    public static int searchInsert(int left, int right, int[] nums, int target) {
+        while (left <= right) {
+            int mid = (left + right) / 2;
+            if (nums[mid] > target) {
+                right = mid - 1;
+            } else if (nums[mid] < target) {
+                left = mid + 1;
+            } else {
+                return mid;
+            }
+        }
+        return -1;
     }
 
     public static String decodeString(String s) {
