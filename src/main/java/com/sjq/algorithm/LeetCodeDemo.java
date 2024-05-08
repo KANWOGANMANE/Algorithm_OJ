@@ -57,6 +57,21 @@ public class LeetCodeDemo {
         int searchInsert = searchInsert(new int[]{1, 3, 5, 6}, 5);
         boolean searchMatrix = searchMatrix(new int[][]{{1}, {3}}, 3);
         int searchLeetCode33 = searchLeetCode33(new int[]{3, 5, 1}, 3);
+        int min = findMin(new int[]{5, 6, 7, 1, 2, 3, 4});
+    }
+
+    public static int findMin(int[] nums) {
+        int start = 0;
+        int end = nums.length - 1;
+        while (start < end) {
+            int mid = (end - start) / 2 + start;
+            if (nums[mid] > nums[end]) {
+                start = mid + 1;
+            } else {
+                end = mid;
+            }
+        }
+        return nums[start];
     }
 
     public static int searchLeetCode33(int[] nums, int target) {
