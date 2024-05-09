@@ -58,6 +58,35 @@ public class LeetCodeDemo {
         boolean searchMatrix = searchMatrix(new int[][]{{1}, {3}}, 3);
         int searchLeetCode33 = searchLeetCode33(new int[]{3, 5, 1}, 3);
         int min = findMin(new int[]{5, 6, 7, 1, 2, 3, 4});
+        merge(new int[]{1, 2, 3, 0, 0, 0}, 3, new int[]{2, 5, 6}, 3);
+    }
+
+    public static void merge(int[] nums1, int m, int[] nums2, int n) {
+        // 通过双指针，倒序，把最大的那个原始放在最右边
+        // num1指针
+        int flag1 = m - 1;
+        // num2指针
+        int flag2 = n - 1;
+        // 存放数据指针
+        int flag3 = m + n - 1;
+
+        while (flag1 >= 0 && flag2 >= 0) {
+            if (nums1[flag1] > nums2[flag2]) {
+                nums1[flag3] = nums1[flag1];
+                flag3--;
+                flag1--;
+            } else {
+                nums1[flag3] = nums2[flag2];
+                flag3--;
+                flag2--;
+            }
+        }
+
+        while (flag2 >= 0) {
+            nums1[flag3] = nums2[flag2];
+            flag3--;
+            flag2--;
+        }
     }
 
     public static int findMin(int[] nums) {
