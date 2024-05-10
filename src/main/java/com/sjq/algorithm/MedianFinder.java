@@ -12,7 +12,6 @@ public class MedianFinder {
     // 小顶堆，大于等于中位数
     PriorityQueue<Integer> smallHeap;
 
-
     public MedianFinder() {
         bigHeap = new PriorityQueue<>((o1, o2) -> Integer.compare(o2, o1));
         smallHeap = new PriorityQueue<>(Integer::compare);

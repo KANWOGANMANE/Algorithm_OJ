@@ -59,6 +59,46 @@ public class LeetCodeDemo {
         int searchLeetCode33 = searchLeetCode33(new int[]{3, 5, 1}, 3);
         int min = findMin(new int[]{5, 6, 7, 1, 2, 3, 4});
         merge(new int[]{1, 2, 3, 0, 0, 0}, 3, new int[]{2, 5, 6}, 3);
+        int numIslands = numIslands(new char[][]{
+                {'1', '1', '1'},
+                {'0', '1', '0'},
+                {'1', '1', '1'}
+        });
+    }
+
+    public static int numIslands(char[][] grid) {
+        if (grid == null || grid.length == 0) {
+            return 0;
+        }
+
+        int nr = grid.length;
+        int nc = grid[0].length;
+        int res = 0;
+        for (int r = 0; r < nr; ++r) {
+            for (int c = 0; c < nc; ++c) {
+                if (grid[r][c] == '1') {
+                    ++res;
+                    numIslandsDfs(grid, r, c);
+                }
+            }
+        }
+
+        return res;
+    }
+
+    private static void numIslandsDfs(char[][] grid, int r, int c) {
+        int nr = grid.length;
+        int nc = grid[0].length;
+
+        if (r < 0 || c < 0 || r >= nr || c >= nc || grid[r][c] == '0') {
+            return;
+        }
+
+        grid[r][c] = '0';
+        numIslandsDfs(grid, r - 1, c);
+        numIslandsDfs(grid, r + 1, c);
+        numIslandsDfs(grid, r, c - 1);
+        numIslandsDfs(grid, r, c + 1);
     }
 
     public static void merge(int[] nums1, int m, int[] nums2, int n) {
