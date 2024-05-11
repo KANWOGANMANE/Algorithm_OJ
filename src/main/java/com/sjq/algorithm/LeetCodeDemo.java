@@ -64,6 +64,69 @@ public class LeetCodeDemo {
                 {'0', '1', '0'},
                 {'1', '1', '1'}
         });
+        int orangesRotting = orangesRotting(new int[][]{
+                {2, 1, 1},
+                {1, 1, 0},
+                {0, 1, 1}
+        });
+    }
+
+    public static int orangesRotting(int[][] grid) {
+        int m = grid.length;
+        int n = grid[0].length;
+        int res = 0;
+        int flash = 0;
+        int[] dx = {0, 1, 0, -1};
+        int[] dy = {1, 0, -1, 0};
+
+        Queue<int[]> queue = new LinkedList<>();
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                // 腐烂的橘子入队
+                if (grid[i][j] == 2) {
+                    queue.add(new int[]{i, j});
+                }
+                // 统计新鲜橘子个数
+                if (grid[i][j] == 1) {
+                    flash++;
+                }
+            }
+        }
+
+        while (flash > 0 && !queue.isEmpty()) {
+            res++;
+            int size = queue.size();
+            for (int i = 0; i < size; i++) {
+                int[] poll = queue.poll();
+                int row = poll[0];
+                int col = poll[1];
+
+                // 循环4个方向
+                for (int j = 0; j < 4; j++) {
+                    int newRow = row + dx[j];
+                    int newCol = col + dy[j];
+
+                    // 判断是否越界
+                    if (newRow < 0 || newRow >= m || newCol < 0 || newCol >= n) {
+                        continue;
+                    }
+
+                    // 把新鲜的橘子标记为腐烂
+                    if (grid[newRow][newCol] == 1) {
+                        grid[newRow][newCol] = 2;
+                        flash--;
+                        queue.offer(new int[]{newRow, newCol});
+                    }
+                }
+            }
+        }
+
+        // 如果还有新鲜橘子，返回-1
+        if (flash > 0) {
+            return -1;
+        }
+
+        return res;
     }
 
     public static int numIslands(char[][] grid) {
