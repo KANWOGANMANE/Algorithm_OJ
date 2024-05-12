@@ -77,6 +77,50 @@ public class LeetCodeDemo {
                 {5, 4},
                 {5, 3}
         });
+        boolean canFinishDfs = canFinish(6, new int[][]{
+                {4, 0},
+                {4, 1},
+                {3, 1},
+                {3, 2},
+                {5, 4},
+                {5, 3}
+        }, 1);
+    }
+
+    public static boolean canFinish(int numCourses, int[][] prerequisites, int dfs) {
+        List<List<Integer>> graph = new ArrayList<>();
+        for (int i = 0; i < numCourses; i++) {
+            graph.add(new ArrayList<>());
+        }
+        for (int i = 0; i < prerequisites.length; i++) {
+            graph.get(prerequisites[i][1]).add(prerequisites[i][0]);
+        }
+
+        int[] visited = new int[numCourses];
+        for (int i = 0; i < numCourses; i++) {
+            if (findCycle(i, visited, graph)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public static boolean findCycle(int node, int[] visited, List<List<Integer>> graph) {
+        if (visited[node] == 1) {
+            return true;
+        }
+        if (visited[node] == 2) {
+            return false;
+        }
+        visited[node] = 1;
+        for (Integer next : graph.get(node)) {
+            if (findCycle(next, visited, graph)) {
+                return true;
+            }
+        }
+        // 标记为2，表示可通，没有循环
+        visited[node] = 2;
+        return false;
     }
 
     public static boolean canFinish(int numCourses, int[][] prerequisites) {
