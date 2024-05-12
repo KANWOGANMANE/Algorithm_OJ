@@ -69,6 +69,73 @@ public class LeetCodeDemo {
                 {1, 1, 0},
                 {0, 1, 1}
         });
+        boolean canFinish = canFinish(6, new int[][]{
+                {4, 0},
+                {4, 1},
+                {3, 1},
+                {3, 2},
+                {5, 4},
+                {5, 3}
+        });
+    }
+
+    public static boolean canFinish(int numCourses, int[][] prerequisites) {
+        // 初始化图，key是课程，value是所有出度
+        Map<Integer, List<Integer>> map = new HashMap<>();
+        // 初始化所有课程的入度
+        int[] indegree = new int[numCourses];
+        for (int i = 0; i < prerequisites.length; i++) {
+            indegree[prerequisites[i][0]]++;
+            if (map.containsKey(prerequisites[i][1])) {
+                map.get(prerequisites[i][1]).add(prerequisites[i][0]);
+            } else {
+                List<Integer> tmpList = new ArrayList<>();
+                tmpList.add(prerequisites[i][0]);
+                map.put(prerequisites[i][1], tmpList);
+            }
+        }
+
+        // 通过bfs进行拓扑排序，把入度为0的课程入队
+        Queue<Integer> queue = new LinkedList<>();
+        for (int i = 0; i < indegree.length; i++) {
+            if (indegree[i] == 0) {
+                queue.add(i);
+            }
+        }
+
+        // 有环图
+        if (queue.isEmpty()) {
+            return false;
+        }
+
+        // bfs移除入度为0的课程
+        while (!queue.isEmpty()) {
+            int size = queue.size();
+            for (int i = 0; i < size; i++) {
+                Integer poll = queue.poll();
+                // 取出该课程的所有出度,
+                List<Integer> integers = map.get(poll);
+                for (int i1 = 0; integers != null && i1 < integers.size(); i1++) {
+                    // 移除入度为0的课程，同时指向的出度课程的入度-1
+                    indegree[integers.get(i1)]--;
+
+                    // 重复取入度为0的课程入队
+                    if (indegree[integers.get(i1)] == 0) {
+                        queue.add(integers.get(i1));
+                    }
+                }
+
+            }
+        }
+
+        // 最后所有入度都为0，则没有环，该课程合理
+        for (int i = 0; i < indegree.length; i++) {
+            if (indegree[i] != 0) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     public static int orangesRotting(int[][] grid) {
