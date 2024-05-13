@@ -85,6 +85,11 @@ public class LeetCodeDemo {
                 {5, 4},
                 {5, 3}
         }, 1);
+        Trie trie = new Trie();
+        trie.insert("apple");
+        trie.insert("appme");
+        boolean hasApple = trie.search("apple");
+        boolean hasApp = trie.startsWith("app");
     }
 
     public static boolean canFinish(int numCourses, int[][] prerequisites, int dfs) {
