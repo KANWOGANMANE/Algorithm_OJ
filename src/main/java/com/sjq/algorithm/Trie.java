@@ -30,6 +30,18 @@ class Trie {
         return node != null && node.isEnd;
     }
 
+    public boolean searchSerial(String word) {
+        TreeNode node = root;
+        for (char ch : word.toCharArray()) {
+            int chrIdx = ch - 'a';
+            if (node.childs[chrIdx] == null || !node.childs[chrIdx].isEnd) {
+                return false;
+            }
+            node = node.childs[chrIdx];
+        }
+        return true;
+    }
+
     public boolean startsWith(String prefix) {
         return searchPreFix(prefix) != null;
     }

@@ -90,6 +90,25 @@ public class LeetCodeDemo {
         trie.insert("appme");
         boolean hasApple = trie.search("apple");
         boolean hasApp = trie.startsWith("app");
+        String longestWord = longestWord(new String[]{"a", "banana", "app", "appl", "ap", "apply", "apple"});
+    }
+
+    public static String longestWord(String[] words) {
+        // 由于最长的字符都是他单词逐步添加一个字母组成，
+        // 所以只要找到一个所有字符的结束位都是true，按字典顺序返回就可用了
+        Trie trie = new Trie();
+        for (String word : words) {
+            trie.insert(word);
+        }
+        String longest = "";
+        for (String word : words) {
+            if (trie.searchSerial(word)) {
+                if (word.length() > longest.length() || (word.length() == longest.length() && word.compareTo(longest) < 0)) {
+                    longest = word;
+                }
+            }
+        }
+        return longest;
     }
 
     public static boolean canFinish(int numCourses, int[][] prerequisites, int dfs) {
