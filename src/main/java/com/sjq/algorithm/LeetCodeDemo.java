@@ -91,6 +91,25 @@ public class LeetCodeDemo {
         boolean hasApple = trie.search("apple");
         boolean hasApp = trie.startsWith("app");
         String longestWord = longestWord(new String[]{"a", "banana", "app", "appl", "ap", "apply", "apple"});
+        int diameterOfBinaryTree = diameterOfBinaryTree(new TreeNode(1, new TreeNode(2, new TreeNode(4), new TreeNode(5)), new TreeNode(3)));
+    }
+
+    private static int widthOfBinaryTree = 0;
+    public static int diameterOfBinaryTree(TreeNode root) {
+        // 求二叉树的直径，相当于求一个二叉树的左子树深度 + 右子树深度
+        diameterOfBinaryTreeDfs(root);
+        return widthOfBinaryTree;
+    }
+
+    // 递归求当前二叉树的深度
+    private static int diameterOfBinaryTreeDfs(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+        int left = diameterOfBinaryTreeDfs(root.left);
+        int right = diameterOfBinaryTreeDfs(root.right);
+        widthOfBinaryTree = Math.max(widthOfBinaryTree, left + right);
+        return Math.max(left, right) + 1;
     }
 
     public static String longestWord(String[] words) {
