@@ -92,6 +92,21 @@ public class LeetCodeDemo {
         boolean hasApp = trie.startsWith("app");
         String longestWord = longestWord(new String[]{"a", "banana", "app", "appl", "ap", "apply", "apple"});
         int diameterOfBinaryTree = diameterOfBinaryTree(new TreeNode(1, new TreeNode(2, new TreeNode(4), new TreeNode(5)), new TreeNode(3)));
+        boolean validBST = isValidBST(new TreeNode(5, new TreeNode(1), new TreeNode(10, new TreeNode(7, new TreeNode(6), new TreeNode(8)), new TreeNode(15, new TreeNode(14), new TreeNode(17)))));
+    }
+
+    public static boolean isValidBST(TreeNode root) {
+        return isValidBST(root, Long.MIN_VALUE, Long.MAX_VALUE);
+    }
+
+    public static boolean isValidBST(TreeNode root, long min, long max) {
+        if (root == null) {
+            return true;
+        }
+        if (root.val >= max || root.val <= min) {
+            return false;
+        }
+        return isValidBST(root.left, min, root.val) && isValidBST(root.right, root.val, max);
     }
 
     private static int widthOfBinaryTree = 0;
