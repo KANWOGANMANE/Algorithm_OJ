@@ -93,6 +93,19 @@ public class LeetCodeDemo {
         String longestWord = longestWord(new String[]{"a", "banana", "app", "appl", "ap", "apply", "apple"});
         int diameterOfBinaryTree = diameterOfBinaryTree(new TreeNode(1, new TreeNode(2, new TreeNode(4), new TreeNode(5)), new TreeNode(3)));
         boolean validBST = isValidBST(new TreeNode(5, new TreeNode(1), new TreeNode(10, new TreeNode(7, new TreeNode(6), new TreeNode(8)), new TreeNode(15, new TreeNode(14), new TreeNode(17)))));
+        majorityElement(new int[]{2, 2, 1, 1, 1, 2, 2});
+    }
+
+    public static int majorityElement(int[] nums) {
+        int vote = 0;
+        int candidate = 0;
+        for (int i = 0; i < nums.length; i++) {
+            if (vote == 0) {
+                candidate = nums[i];
+            }
+            vote += (nums[i] == candidate ? 1 : -1);
+        }
+        return candidate;
     }
 
     public static boolean isValidBST(TreeNode root) {
@@ -110,6 +123,7 @@ public class LeetCodeDemo {
     }
 
     private static int widthOfBinaryTree = 0;
+
     public static int diameterOfBinaryTree(TreeNode root) {
         // 求二叉树的直径，相当于求一个二叉树的左子树深度 + 右子树深度
         diameterOfBinaryTreeDfs(root);
