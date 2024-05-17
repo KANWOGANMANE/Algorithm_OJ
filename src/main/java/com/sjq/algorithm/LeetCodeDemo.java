@@ -94,6 +94,25 @@ public class LeetCodeDemo {
         int diameterOfBinaryTree = diameterOfBinaryTree(new TreeNode(1, new TreeNode(2, new TreeNode(4), new TreeNode(5)), new TreeNode(3)));
         boolean validBST = isValidBST(new TreeNode(5, new TreeNode(1), new TreeNode(10, new TreeNode(7, new TreeNode(6), new TreeNode(8)), new TreeNode(15, new TreeNode(14), new TreeNode(17)))));
         majorityElement(new int[]{2, 2, 1, 1, 1, 2, 2});
+        sortColors(new int[]{2, 1, 1, 0, 2, 1, 0});
+    }
+
+    public static void sortColors(int[] nums) {
+        int n0 = 0, n1 = 0;
+        for (int i = 0; i < nums.length; i++) {
+            int num = nums[i];
+            nums[i] = 2;
+            if (num == 1) {
+                nums[n1] = 1;
+                n1++;
+            }
+            if (num == 0) {
+                nums[n1] = 1;
+                nums[n0] = 0;
+                n0++;
+                n1++;
+            }
+        }
     }
 
     public static int majorityElement(int[] nums) {
