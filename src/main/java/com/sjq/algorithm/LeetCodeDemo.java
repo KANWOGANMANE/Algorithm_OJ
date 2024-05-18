@@ -1,8 +1,10 @@
 package com.sjq.algorithm;
 
+import com.sjq.model.ListNode;
 import com.sjq.model.TreeNode;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @Author Kemp
@@ -95,6 +97,45 @@ public class LeetCodeDemo {
         boolean validBST = isValidBST(new TreeNode(5, new TreeNode(1), new TreeNode(10, new TreeNode(7, new TreeNode(6), new TreeNode(8)), new TreeNode(15, new TreeNode(14), new TreeNode(17)))));
         majorityElement(new int[]{2, 2, 1, 1, 1, 2, 2});
         sortColors(new int[]{2, 1, 1, 0, 2, 1, 0});
+        ListNode listNode = mergeKLists(new ListNode[]{
+                new ListNode(1, new ListNode(4, new ListNode(5))),
+                new ListNode(2, new ListNode(4, new ListNode(6))),
+                new ListNode(7, new ListNode(8, new ListNode(9))),
+                new ListNode(7, new ListNode(9, new ListNode(10)))
+        });
+    }
+
+    public static ListNode mergeKLists(ListNode[] lists) {
+        // 递归，把k个链表分成两半，
+        int n = lists.length;
+        if (n == 0) {
+            return null;
+        }
+        if (n == 1) {
+            return lists[0];
+        }
+        ListNode[] one = Arrays.copyOfRange(lists, 0, n / 2);
+        ListNode[] two = Arrays.copyOfRange(lists, n / 2, n);
+        ListNode listNode1 = mergeKLists(one);
+        ListNode listNode2 = mergeKLists(two);
+        return mergeTwoLists(listNode1, listNode2);
+    }
+
+    public static ListNode mergeTwoLists(ListNode list1, ListNode list2) {
+        // 递归，合并两个链表
+        if (list1 == null) {
+            return list2;
+        }
+        if (list2 == null) {
+            return list1;
+        }
+        if (list1.val < list2.val) {
+            list1.next = mergeTwoLists(list1.next, list2);
+            return list1;
+        } else {
+            list2.next = mergeTwoLists(list1, list2.next);
+            return list2;
+        }
     }
 
     public static void sortColors(int[] nums) {
