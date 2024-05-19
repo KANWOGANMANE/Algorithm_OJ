@@ -103,6 +103,24 @@ public class LeetCodeDemo {
                 new ListNode(7, new ListNode(8, new ListNode(9))),
                 new ListNode(7, new ListNode(9, new ListNode(10)))
         });
+        int pathMaxSum = maxPathSum(new TreeNode(-10, new TreeNode(9), new TreeNode(20, new TreeNode(15), new TreeNode(7))));
+    }
+
+    static int maxPathSum = Integer.MIN_VALUE;
+
+    public static int maxPathSum(TreeNode root) {
+        maxPathSumDfs(root);
+        return maxPathSum;
+    }
+
+    public static int maxPathSumDfs(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+        int left = Math.max(0, maxPathSumDfs(root.left));
+        int right = Math.max(0, maxPathSumDfs(root.right));
+        maxPathSum = Math.max(maxPathSum, left + right + root.val);
+        return Math.max(left, right) + root.val;
     }
 
     public static ListNode mergeKLists(ListNode[] lists) {
