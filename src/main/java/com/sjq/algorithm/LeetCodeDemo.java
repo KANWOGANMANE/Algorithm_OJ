@@ -104,6 +104,26 @@ public class LeetCodeDemo {
                 new ListNode(7, new ListNode(9, new ListNode(10)))
         });
         int pathMaxSum = maxPathSum(new TreeNode(-10, new TreeNode(9), new TreeNode(20, new TreeNode(15), new TreeNode(7))));
+        int kthSmallest = kthSmallest(new TreeNode(3, new TreeNode(1, null, new TreeNode(2)), new TreeNode(4)), 1);
+    }
+
+    public static int kthSmallest(TreeNode root, int k) {
+        // 中序遍历，求二叉搜索树中第K小的元素
+        List<Integer> list = new ArrayList<>();
+        inorderTraversal(root, list, k);
+        return list.get(k - 1);
+    }
+
+    private static void inorderTraversal(TreeNode node, List<Integer> list, int k) {
+        if (node == null) {
+            return;
+        }
+        if (list.size() > k) {
+            return;
+        }
+        inorderTraversal(node.left, list, k);
+        list.add(node.val);
+        inorderTraversal(node.right, list, k);
     }
 
     static int maxPathSum = Integer.MIN_VALUE;
