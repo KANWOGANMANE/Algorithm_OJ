@@ -105,6 +105,49 @@ public class LeetCodeDemo {
         });
         int pathMaxSum = maxPathSum(new TreeNode(-10, new TreeNode(9), new TreeNode(20, new TreeNode(15), new TreeNode(7))));
         int kthSmallest = kthSmallest(new TreeNode(3, new TreeNode(1, null, new TreeNode(2)), new TreeNode(4)), 1);
+        double sortedArrays = findMedianSortedArrays(new int[]{1, 2, 3, 4}, new int[]{2, 3, 4, 5, 6});
+    }
+
+    public static double findMedianSortedArrays(int[] nums1, int[] nums2) {
+        // 求两个正序数组的中位数，相当于求第k大的元素
+        int n = nums1.length;
+        int m = nums2.length;
+        if ((m + n) % 2 == 0) {
+            // 如果是偶数，就要求第(m+n)/2和第(m+n)/2+1的平均
+            return (findKth(nums1, 0, nums2, 0, (m + n) / 2) + findKth(nums1, 0, nums2, 0, (m + n) / 2 + 1)) / 2.0;
+        } else {
+            // 如果是奇数，求第(m+n)/2+1的值
+            return findKth(nums1, 0, nums2, 0, (m + n) / 2 + 1);
+        }
+    }
+
+    private static double findKth(int[] nums1, int s1, int[] nums2, int s2, int k) {
+        // 求第k大的元素，每次都先比较第k/2大的元素，然后移除最小的那个k/2之前的元素
+
+        // 确保第一个数组比第二个数组短
+        if (nums1.length - s1 > nums2.length - s2) {
+            return findKth(nums2, s2, nums1, s1, k);
+        }
+
+        // 如果第一个数组为空，直接返回第二个数组的第k个元素
+        if (nums1.length == s1) return nums2[s2 + k - 1];
+
+        // k=1，取两个数组中的最小值
+        if (k == 1) {
+            return Math.min(nums1[s1], nums2[s2]);
+        }
+
+        // num1继续取取k/2有可能越界
+        int idx1 = Math.min(nums1.length, s1 + k / 2);
+        // s2+2K,k-k/2是为了防溢出
+        int idx2 = s2 + k - k / 2;
+        // 如果num1的k/2小于num2的k/2，则把num1的k/2之前的元素都去掉，反之，去掉num2的k/2之前的元素
+        if (nums1[idx1 - 1] < nums2[idx2 - 1]) {
+            // 原本是取第k大的数，去掉k/2之前的元素后，就取第k -（去掉元素个数）大的元素。
+            return findKth(nums1, idx1, nums2, s2, k - (idx1 - s1));
+        } else {
+            return findKth(nums1, s1, nums2, idx2, k - (idx2 - s2));
+        }
     }
 
     public static int kthSmallest(TreeNode root, int k) {
