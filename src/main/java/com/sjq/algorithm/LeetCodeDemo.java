@@ -57,7 +57,14 @@ public class LeetCodeDemo {
         twoSum(new int[]{2, 7, 11, 15}, 9);
         String decodeString = decodeString("3[z]2[2[y]pq4[2[jk]e1[f]]]ef");
         int searchInsert = searchInsert(new int[]{1, 3, 5, 6}, 5);
-        boolean searchMatrix = searchMatrix(new int[][]{{1}, {3}}, 3);
+        boolean searchMatrix = searchMatrix(new int[][]{
+                {1, 4, 7, 11, 15},
+                {2, 5, 8, 12, 19},
+                {3, 6, 9, 16, 21},
+                {10, 13, 14, 17, 24},
+                {18, 21, 23, 26, 30}
+
+        }, 20);
         int searchLeetCode33 = searchLeetCode33(new int[]{3, 5, 1}, 3);
         int min = findMin(new int[]{5, 6, 7, 1, 2, 3, 4});
         merge(new int[]{1, 2, 3, 0, 0, 0}, 3, new int[]{2, 5, 6}, 3);
@@ -550,29 +557,18 @@ public class LeetCodeDemo {
     }
 
     public static boolean searchMatrix(int[][] matrix, int target) {
-        int m = matrix.length, n = matrix[0].length - 1;
-        int left = 0, right = m - 1, mid = (right - left) / 2 + left;
-        if (m < 2) {
-            return search(matrix[0], target);
-        }
-
-        while (left <= right) {
-            if (matrix[mid][0] == target) {
+        int m = matrix.length, n = matrix[0].length;
+        int x = 0, y = n - 1;
+        while (x < m && y >= 0) {
+            System.out.println(matrix[x][y]);
+            if (matrix[x][y] == target) {
                 return true;
             }
-            if (n != 0 && mid - 1 >= 0 && target >= matrix[mid - 1][0] && target < matrix[mid][0]) {
-                return search(matrix[mid - 1], target);
-            }
-            if (n != 0 && target > matrix[mid][n] && mid + 1 < m && target <= matrix[mid + 1][n]) {
-                return search(matrix[mid + 1], target);
-            }
-
-            if (target > matrix[mid][0]) {
-                left = mid + 1;
+            if (matrix[x][y] > target) {
+                --y;
             } else {
-                right = mid - 1;
+                ++x;
             }
-            mid = (right - left) / 2 + left;
         }
         return false;
     }
