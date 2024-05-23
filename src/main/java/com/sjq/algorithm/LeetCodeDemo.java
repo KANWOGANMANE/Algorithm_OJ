@@ -113,6 +113,27 @@ public class LeetCodeDemo {
         int pathMaxSum = maxPathSum(new TreeNode(-10, new TreeNode(9), new TreeNode(20, new TreeNode(15), new TreeNode(7))));
         int kthSmallest = kthSmallest(new TreeNode(3, new TreeNode(1, null, new TreeNode(2)), new TreeNode(4)), 1);
         double sortedArrays = findMedianSortedArrays(new int[]{1, 2, 3, 4}, new int[]{2, 3, 4, 5, 6});
+        int duplicate = findDuplicate(new int[]{1, 3, 4, 2, 2});
+    }
+
+    public static int findDuplicate(int[] nums) {
+        // 快慢指针，慢指针走1步，快指针走2步
+        // 由于存在重复的数，则相当于存在环。
+        int slow = 0;
+        int fast = 0;
+        // 寻找环的位置
+        do {
+            slow = nums[slow];
+            fast = nums[nums[fast]];
+        } while (slow != fast);
+        // 快慢指针每次都移动一步，快指针仍然在环里
+        // 当快慢指针相遇时，慢指针在环外，快指针在环内
+        slow = 0;
+        while (slow != fast) {
+            slow = nums[slow];
+            fast = nums[fast];
+        }
+        return slow;
     }
 
     public static double findMedianSortedArrays(int[] nums1, int[] nums2) {
