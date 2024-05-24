@@ -4,7 +4,6 @@ import com.sjq.model.ListNode;
 import com.sjq.model.TreeNode;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * @Author Kemp
@@ -114,6 +113,41 @@ public class LeetCodeDemo {
         int kthSmallest = kthSmallest(new TreeNode(3, new TreeNode(1, null, new TreeNode(2)), new TreeNode(4)), 1);
         double sortedArrays = findMedianSortedArrays(new int[]{1, 2, 3, 4}, new int[]{2, 3, 4, 5, 6});
         int duplicate = findDuplicate(new int[]{1, 3, 4, 2, 2});
+        nextPermutation(new int[]{1, 2, 3});
+    }
+
+    public static void nextPermutation(int[] nums) {
+        // 先从后往前找到降序的位置
+        int i = nums.length - 2;
+        while (i >= 0 && nums[i] >= nums[i + 1]) {
+            i--;
+        }
+        if (i >= 0) {
+            // 当存在降序节点时，找到一个比nums[i]大一点点的数
+            int j = nums.length - 1;
+            while (j >= 0 && nums[i] >= nums[j]) {
+                j--;
+            }
+            // 交换位置
+            swap(nums, i, j);
+        }
+        // 将i后面的数进行反转
+        reverse(nums, i + 1);
+    }
+
+    public static void swap(int[] nums, int i, int j) {
+        int temp = nums[i];
+        nums[i] = nums[j];
+        nums[j] = temp;
+    }
+
+    public static void reverse(int[] nums, int start) {
+        int left = start, right = nums.length - 1;
+        while (left < right) {
+            swap(nums, left, right);
+            left++;
+            right--;
+        }
     }
 
     public static int findDuplicate(int[] nums) {
