@@ -114,6 +114,23 @@ public class LeetCodeDemo {
         double sortedArrays = findMedianSortedArrays(new int[]{1, 2, 3, 4}, new int[]{2, 3, 4, 5, 6});
         int duplicate = findDuplicate(new int[]{1, 3, 4, 2, 2});
         nextPermutation(new int[]{1, 2, 3});
+        boolean unique = isUnique("abc");
+    }
+
+    public static boolean isUnique(String astr) {
+        // 可以通过数组或者位运算进行判断
+        if (astr.length() > 26) return false;
+        // 通过位运算进行判断，左移index位
+        int bits = 0;
+        for (int i = 0; i < astr.length(); i++) {
+            int index = astr.charAt(i) - 'a';
+            if ((bits & (1 << index)) == 1) {
+                return false;
+            } else {
+                bits = bits | (1 << index);
+            }
+        }
+        return true;
     }
 
     public static void nextPermutation(int[] nums) {
