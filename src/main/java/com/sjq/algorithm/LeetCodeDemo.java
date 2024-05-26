@@ -115,6 +115,21 @@ public class LeetCodeDemo {
         int duplicate = findDuplicate(new int[]{1, 3, 4, 2, 2});
         nextPermutation(new int[]{1, 2, 3});
         boolean unique = isUnique("abc");
+        boolean checkPermutation = CheckPermutation("abc", "bca");
+    }
+
+    public static boolean CheckPermutation(String s1, String s2) {
+        if (s1.length() != s2.length()) {
+            return false;
+        }
+        int n = s1.length(), m = s2.length(), tot = 0;
+        if (n != m) return false;
+        int[] cnts = new int[256];
+        for (int i = 0; i < n; i++) {
+            if (++cnts[s1.charAt(i)] == 1) tot++;
+            if (--cnts[s2.charAt(i)] == 0) tot--;
+        }
+        return tot == 0;
     }
 
     public static boolean isUnique(String astr) {
