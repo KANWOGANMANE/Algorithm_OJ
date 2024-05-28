@@ -116,6 +116,42 @@ public class LeetCodeDemo {
         nextPermutation(new int[]{1, 2, 3});
         boolean unique = isUnique("abc");
         boolean checkPermutation = CheckPermutation("abc", "bca");
+        String replaceSpaces = replaceSpaces("Mr John Smith    ", 13);
+        boolean permutePalindrome = canPermutePalindrome("tact.oa");
+    }
+
+    public static boolean canPermutePalindrome(String s) {
+        // 回文串不一定是字典当中的单词
+        // 高位
+        long highBits = 0;
+        // 低位
+        long lowBits = 0;
+        for (char ch : s.toCharArray()) {
+            if (ch >= 64) {
+                highBits ^= (1L << (ch - 64));
+            } else {
+                lowBits ^= 1L << ch;
+            }
+        }
+        // 回文串会出现2次，只有1个单词出现1次
+        return Long.bitCount(highBits) + Long.bitCount(lowBits) <= 1;
+    }
+
+    public static String replaceSpaces(String S, int length) {
+        //先把字符串转化为字符数组
+        char[] chars = S.toCharArray();
+        int index = chars.length - 1;
+        for (int i = length - 1; i >= 0; i--) {
+            //如果遇到空格就把他转化为"%20"
+            if (chars[i] == ' ') {
+                chars[index--] = '0';
+                chars[index--] = '2';
+                chars[index--] = '%';
+            } else {
+                chars[index--] = chars[i];
+            }
+        }
+        return new String(chars, index + 1, chars.length - index - 1);
     }
 
     public static boolean CheckPermutation(String s1, String s2) {
