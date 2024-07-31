@@ -118,6 +118,58 @@ public class LeetCodeDemo {
         boolean checkPermutation = CheckPermutation("abc", "bca");
         String replaceSpaces = replaceSpaces("Mr John Smith    ", 13);
         boolean permutePalindrome = canPermutePalindrome("tact.oa");
+        compressString("aabcccccaaa");
+        oneEditAway("", "");
+        dailyTemperatures(new int[]{73, 74, 75, 71, 69, 72, 76, 73});
+    }
+
+    public static int[] dailyTemperatures(int[] temperatures) {
+        int[] res = new int[temperatures.length];
+        Deque<Integer> stack = new LinkedList();
+        for (int i = 0; i < temperatures.length; i++) {
+            while (!stack.isEmpty() && temperatures[i] > temperatures[stack.getFirst()]) {
+                int index = stack.pollFirst();
+                res[index] = i - index;
+            }
+            stack.addFirst(i);
+        }
+        return res;
+    }
+
+    public static boolean oneEditAway(String first, String second) {
+        // 对于删除操作，一般用于长度超长，但是其它位置相同
+        // 对于插入
+        if (Math.abs(first.length() - second.length()) > 1) {
+            return false;
+        }
+
+
+        return true;
+    }
+
+    public static String compressString(String S) {
+        if (S == null || S.length() == 0)
+            return "";
+        StringBuilder sb = new StringBuilder();
+        int chCount = 0;
+        char lastCh = ' ';
+        for (char ch : S.toCharArray()) {
+            if (chCount == 0) {
+                sb.append(ch);
+                lastCh = ch;
+            }
+            if (lastCh == ch) {
+                chCount++;
+            } else {
+                sb.append(chCount);
+                sb.append(ch);
+                lastCh = ch;
+                chCount = 0;
+                chCount++;
+            }
+        }
+        sb.append(chCount);
+        return sb.length() >= S.length() ? S : sb.toString();
     }
 
     public static boolean canPermutePalindrome(String s) {
